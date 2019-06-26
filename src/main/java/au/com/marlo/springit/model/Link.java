@@ -2,6 +2,7 @@ package au.com.marlo.springit.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,8 @@ public class Link  {
     @Id
     @GeneratedValue
     private long id;
+    @NonNull
     private String title;
+    @NonNull
     private String url;
 }
