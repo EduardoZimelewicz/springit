@@ -1,0 +1,29 @@
+
+
+management:
+  endpoint:
+    info:
+      enabled: true
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+logging:
+  level:
+    au.com.marlo: DEBUG
+
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    name: springit
+  jpa:
+    show-sql: true
+info:
+  app:
+    name: "Spring Reddit"
+    description: "Spring Boot reddit clone"
+    version: "1.0.0"
