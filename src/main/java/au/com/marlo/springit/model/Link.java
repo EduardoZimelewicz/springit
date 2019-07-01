@@ -5,12 +5,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.constraints.URL;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
@@ -30,8 +32,12 @@ public class Link extends Auditable {
     private long id;
 
     @NonNull
+    @NotEmpty
     private String title;
+
     @NonNull
+    @NotEmpty
+    @URL
     private String url;
 
     public Link () {
