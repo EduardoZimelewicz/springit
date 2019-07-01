@@ -22,6 +22,9 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
+  security:
+    user:
+      roles: "ADMIN"
 info:
   app:
     name: "Spring Reddit"
