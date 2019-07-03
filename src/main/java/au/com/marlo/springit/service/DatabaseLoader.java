@@ -13,11 +13,14 @@ import java.util.Map;
 @Component
 public class DatabaseLoader implements CommandLineRunner {
 
-    @Autowired
     private LinkRepository linkRepository;
 
-    @Autowired
     private CommentRepository commentRepository;
+
+    public DatabaseLoader (LinkRepository linkRepository, CommentRepository commentRepository) {
+        this.linkRepository = linkRepository;
+        this.commentRepository = commentRepository;
+    }
 
     @Override
     public void run(String... args) {
