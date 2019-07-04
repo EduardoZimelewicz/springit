@@ -3,11 +3,13 @@ management:
     info:
       enabled: true
     health:
-      show-details: always
+      show-details: when_authorized
   endpoints:
     web:
       exposure:
         include: "*"
+      #base-path: "/monitoring"
+
 logging:
   level:
     au.com.marlo: DEBUG
@@ -22,9 +24,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
-  security:
-    user:
-      roles: "ADMIN"
 info:
   app:
     name: "Spring Reddit"

@@ -1,7 +1,9 @@
 package au.com.marlo.springit.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +16,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
+@RequiredArgsConstructor
+@NoArgsConstructor
 @Data
 public class User implements UserDetails {
 
@@ -30,6 +34,7 @@ public class User implements UserDetails {
     @Column(length = 100)
     private String password;
 
+    @NonNull
     @Column(nullable = false)
     private boolean enabled;
 

@@ -9,6 +9,8 @@ import javax.persistence.ManyToMany;
 import java.util.Collection;
 
 @Entity
+@RequiredArgsConstructor
+@NoArgsConstructor
 @Data
 public class Role {
 

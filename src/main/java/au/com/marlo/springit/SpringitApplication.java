@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-@EnableJpaAuditing
 public class SpringitApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(SpringitApplication.class);
@@ -20,7 +19,6 @@ public class SpringitApplication {
 
     @Bean
     public PrettyTime prettyTime () {
-       PrettyTime prettyTime = new PrettyTime();
-       return prettyTime;
+        return new PrettyTime();
     }
 }
