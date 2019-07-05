@@ -1,10 +1,7 @@
 package au.com.marlo.springit.model;
 
 import au.com.marlo.springit.service.BeanUtil;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.URL;
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -21,10 +18,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Entity
+@NoArgsConstructor
 @RequiredArgsConstructor
-@Data
+@Getter
+@Setter
 public class Link extends Auditable {
 
     @Id
@@ -40,10 +39,6 @@ public class Link extends Auditable {
     @URL
     private String url;
 
-    public Link () {
-
-    }
-
     @OneToMany(mappedBy = "link")
     private List<Vote> votes = new ArrayList<>();
 
@@ -51,6 +46,10 @@ public class Link extends Auditable {
 
     @OneToMany(mappedBy = "link")
     private List<Comment> comments = new ArrayList<>();
+
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+    }
 
     public String getDomainName() throws URISyntaxException {
         URI uri = new URI(this.url);
