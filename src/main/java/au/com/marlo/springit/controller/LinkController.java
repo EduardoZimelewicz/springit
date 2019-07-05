@@ -2,11 +2,10 @@ package au.com.marlo.springit.controller;
 
 import au.com.marlo.springit.model.Comment;
 import au.com.marlo.springit.model.Link;
-import au.com.marlo.springit.repository.CommentRepository;
-import au.com.marlo.springit.repository.LinkRepository;
+import au.com.marlo.springit.service.CommentService;
+import au.com.marlo.springit.service.LinkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,25 +22,25 @@ import java.util.Optional;
 @Controller
 public class LinkController {
 
-    private final LinkRepository linkRepository;
-    private final CommentRepository commentRepository;
+    private final CommentService commentService;
+    private final LinkService linkService;
 
     private static final Logger logger = LoggerFactory.getLogger(LinkController.class);
 
-    public LinkController(LinkRepository linkRepository, CommentRepository commentRepository) {
-        this.commentRepository = commentRepository;
-        this.linkRepository = linkRepository;
+    public LinkController(LinkService linkService, CommentService commentService) {
+        this.commentService = commentService;
+        this.linkService = linkService;
     }
 
     @RequestMapping(path = "/")
     public String links (Model model) {
-        model.addAttribute("links", linkRepository.findAll());
+        model.addAttribute("links", linkService.findAll());
         return "link/home";
     }
 
     @GetMapping("/link/{id}")
     public String read(@PathVariable Long id,Model model) {
-        Optional<Link> link = linkRepository.findById(id);
+        Optional<Link> link = linkService.findById(id);
         if( link.isPresent() ) {
             Link currentLink = link.get();
             Comment comment = new Comment();
@@ -68,7 +67,7 @@ public class LinkController {
             model.addAttribute("link", link);
             return "link/submit";
         } else {
-            linkRepository.save(link);
+            linkService.save(link);
             logger.info("New links was successfully saved");
             redirectAttributes.addAttribute("id", link.getId()).addFlashAttribute("success", true);
             return "redirect:/link/{id}";
@@ -82,7 +81,7 @@ public class LinkController {
             logger.info("Something went wrong.");
         } else {
             logger.info("New Comment Saved!");
-            commentRepository.save(comment);
+            commentService.save(comment);
         }
         return "redirect:/link/" + comment.getLink().getId();
     }
