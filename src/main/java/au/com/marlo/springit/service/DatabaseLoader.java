@@ -28,6 +28,8 @@ public class DatabaseLoader implements CommandLineRunner {
 
     private UserRepository userRepository;
 
+    private Map<String,User> users = new HashMap<>();
+
     public DatabaseLoader (LinkRepository linkRepository, CommentRepository commentRepository,
                            RoleRepository roleRepository, UserRepository userRepository) {
         this.linkRepository = linkRepository;
@@ -45,18 +47,20 @@ public class DatabaseLoader implements CommandLineRunner {
         Role adminRole = new Role("ROLE_ADMIN");
         roleRepository.save(adminRole);
 
-        User user = new User("user@gmail.com", secret, true);
+        User user = new User("user@gmail.com", secret, true, "User", "Normal", "user");
         user.addRole(userRole);
         userRepository.save(user);
+        users.put(user.getAlias(), user);
 
-        User admin = new User("admin@gmail.com", secret, true);
+        User admin = new User("admin@gmail.com", secret, true, "Admin", "User", "admin");
         admin.addRole(adminRole);
         userRepository.save(admin);
+        users.put(admin.getAlias(), admin);
 
-        User master = new User("super@gmail.com", secret, true);
+        User master = new User("super@gmail.com", secret, true, "Super", "User", "super");
         master.addRoles(new HashSet<>(Arrays.asList(userRole,adminRole)));
         userRepository.save(master);
-
+        users.put(master.getAlias(), master);
     }
 
     @Override
@@ -79,6 +83,11 @@ public class DatabaseLoader implements CommandLineRunner {
 
         links.forEach((k,v) -> {
             Link link = new Link(k,v);
+            if (link.getTitle().contains("Build")) {
+                link.setUser(users.get("super"));
+            } else {
+                link.setUser(users.get("user"));
+            }
             linkRepository.save(link);
 
             // we will do something with comments later

@@ -1,14 +1,12 @@
 package au.com.marlo.springit.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.HashSet;
@@ -37,6 +35,27 @@ public class User implements UserDetails {
     @NonNull
     @Column(nullable = false)
     private boolean enabled;
+
+    @NonNull
+    @NotNull(message = "You must enter a first name.")
+    private String firstName;
+
+    @NonNull
+    @NotNull(message = "You must enter a lastName name.")
+    private String lastName;
+
+    @Transient
+    @Setter(AccessLevel.NONE)
+    private String fullName;
+
+    @NonNull
+    @NotNull
+    @Column(nullable = false, unique = true)
+    private String alias;
+
+    public String getFullName(){
+        return firstName + " " + lastName;
+    }
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
